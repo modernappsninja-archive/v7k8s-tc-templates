@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deploy-resource-contraints
+  labels:
+    app: deploy-resourcequota-test
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: deploy-resourcequota-test
+  template:
+    metadata:
+      labels:
+        app: deploy-resourcequota-test
+    spec:
+      containers:
+      - name: ctr-resource-contrained
+        image: nginx
+        resources:
+          limits:
+            cpu: "225m"
+            memory: "4Gi"
+            # ephemeral-storage: "2Gi"
+          requests:
+            cpu: "200m"
+            memory: "1Gi"
+            # ephemeral-storage: "1Gi"
