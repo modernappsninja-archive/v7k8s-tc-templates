@@ -2,7 +2,7 @@
 
 echo "Enter vSphere Cluster Speed Capacity (GHz): "
 read vclus_speed
-echo "Enter vSphere Cluster Total Processors: "
+echo "Enter vSphere Cluster Total Processors (Cores): "
 read vclus_cores
 echo "Enter the vSphere Namespace Capacity and Usage Limit for CPU(GHz): "
 read vns_cpu_limit
