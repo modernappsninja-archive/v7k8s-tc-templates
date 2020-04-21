@@ -1,4 +1,6 @@
 # !/bin/bash
+# v0.0.1
+# csaroka@vmware.com
 
 echo "Enter vSphere Cluster Speed Capacity (GHz): "
 read vclus_speed
