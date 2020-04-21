@@ -19,10 +19,10 @@ spec:
         image: nginx
         resources:
           limits:
-            cpu: "225m"
-            memory: "4Gi"
+            cpu: "164m"
+            memory: "1Gi"
             # ephemeral-storage: "2Gi"
           requests:
-            cpu: "200m"
-            memory: "1Gi"
+            cpu: "164m"
+            memory: "500m"
             # ephemeral-storage: "1Gi"
