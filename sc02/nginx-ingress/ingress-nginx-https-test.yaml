@@ -1,0 +1,54 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: http-svc
+spec:
+  selector:
+    app: hello
+    tier: frontend
+  ports:
+  - protocol: "TCP"
+    port: 80
+    targetPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: https-test
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hello
+  template:
+    metadata:
+      labels:
+        app: hello
+        tier: frontend
+    spec:
+      containers:
+      - name: https-test
+        image: gcr.io/kubernetes-e2e-test-images/echoserver:2.1
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    # Create the secret containing the trusted ca certificates
+    nginx.ingress.kubernetes.io/auth-tls-secret: "default/ca-secret"
+    nginx.ingress.kubernetes.io/auth-tls-verify-depth: "1"
+  name: nginx-test
+  namespace: default
+spec:
+  rules:
+  - host: mydomain.com
+    http:
+      paths:
+      - backend:
+          serviceName: http-svc
+          servicePort: 80
+        path: /
+  tls:
+  - hosts:
+    - mydomain.com
+    secretName: tls-secret
