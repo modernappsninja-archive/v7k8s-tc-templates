@@ -9,6 +9,7 @@ def main():
     err = child.read()
     print err
     child = pexpect.spawn('kubectl get po')
+    pexpect.spawn.close()
     err = child.read()
     print err
 
