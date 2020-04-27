@@ -1,8 +1,8 @@
 kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: rolebinding-psp-custom-runasany-sa-ns_cloudapp-bravo
-  namespace: cloudapp-bravo
+  name: rolebinding-psp-custom-runasany-sa-ns_appns-alpha
+  namespace: appns-alpha
 roleRef:
   kind: ClusterRole
   name: psp:psp-custom-runasany
