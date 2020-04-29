@@ -1,7 +1,8 @@
 apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
+kind: RoleBinding
 metadata:
-  name: psp:serviceaccounts
+  name: psp:serviceaccounts_ns_psp-test
+  namespace: psp-test
 subjects:
 - apiGroup: rbac.authorization.k8s.io
   kind: Group
@@ -9,4 +10,4 @@ subjects:
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: psp:psp-custom-runasany
+  name: psp:vmware-system-restricted

@@ -1,8 +1,13 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: kubernetes-dashboard
+---
 kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: rolebinding-default-privileged-sa-ns_default
-  namespace: default
+  name: rolebinding-default-privileged-sa-ns_kubernetes-dashboard
+  namespace: kubernetes-dashboard
 roleRef:
   kind: ClusterRole
   name: psp:vmware-system-privileged
@@ -11,4 +16,3 @@ subjects:
 - kind: Group
   apiGroup: rbac.authorization.k8s.io
   name: system:serviceaccounts
-  
