@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: deploy-resource-contraints
+  name: deploy-resource-constraints
   labels:
     app: deploy-resourcequota-test
 spec:
@@ -15,14 +15,14 @@ spec:
         app: deploy-resourcequota-test
     spec:
       containers:
-      - name: ctr-resource-contrained
+      - name: ctr-resource-constrained
         image: nginx
         resources:
           limits:
-            cpu: "164m"
+            cpu: "166m"
             memory: "1Gi"
             # ephemeral-storage: "2Gi"
           requests:
-            cpu: "164m"
+            cpu: "166m"
             memory: "500m"
             # ephemeral-storage: "1Gi"

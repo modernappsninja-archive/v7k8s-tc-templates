@@ -8,4 +8,4 @@ spec:
   storageClassName: wrkldmgmt-storage-policy
   resources:
     requests:
-        storage: 20Gi
+        storage: 9Gi
