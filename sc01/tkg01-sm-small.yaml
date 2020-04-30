@@ -5,15 +5,15 @@ metadata:
   namespace: ns01                    
 spec:
   distribution:
-    version: v1.16.8+vmware.1-tkg.3.60d2ffd    #The full image name is specified 
+    version: v1.16.8+vmware.1-tkg.3.60d2ffd    
   topology:
     controlPlane:
-      count: 1                                 #1 control plane nodes                       
-      class: best-effort-small                  #large size VM
+      count: 1                                                        
+      class: best-effort-small                
       storageClass: wrkldmgmt-storage-policy  #Specific storage class for control plane       
     workers:
-      count: 3                                 #3 worker nodes                     
-      class: best-effort-small                 #extra large size VM          
+      count: 3                                                     
+      class: best-effort-small                        
       storageClass: wrkldmgmt-storage-policy   #Specific storage class for workers     
   settings:
     network:
