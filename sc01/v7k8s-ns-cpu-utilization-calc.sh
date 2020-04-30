@@ -23,4 +23,4 @@ cpu_util_min=$(echo "scale=3; $run_pods_request*$vclus_speed_per_core" | bc)
 cpu_util_max=$(echo "scale=3; $run_pods_limit*$vclus_speed_per_core" | bc)
 
 
-echo "The namespace Capacity and Usaage, CPU Utilization value should report a value within the range of $cpu_util_min to $cpu_util_max GHz."
+echo "The namespace Capacity and Usage, CPU Utilization value should report a value within the range of $cpu_util_min to $cpu_util_max GHz."
