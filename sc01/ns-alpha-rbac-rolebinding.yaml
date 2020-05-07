@@ -1,0 +1,15 @@
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: rolebinding-ns_alpha-devteam_a-edit
+  namespace: ns-alpha
+roleRef:
+  kind: ClusterRole
+  name: edit                             
+  apiGroup: rbac.authorization.k8s.io
+subjects:
+- kind: Group 
+  name: sso:DevTeamA@lab.local
+#- kind: User
+#  name: sso:appdev01@lab.local            #sso:<username>@<domain>
+  apiGroup: rbac.authorization.k8s.io

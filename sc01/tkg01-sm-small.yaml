@@ -1,19 +1,19 @@
 apiVersion: run.tanzu.vmware.com/v1alpha1    
 kind: TanzuKubernetesCluster                 
 metadata:
-  name: tkg01-mm-small                               
+  name: tkg01-sm-small                               
   namespace: ns01                    
 spec:
   distribution:
-    version: v1.16.8+vmware.1-tkg.3.60d2ffd    #The full image name is specified 
+    version: v1.16.8+vmware.1-tkg.3.60d2ffd    
   topology:
     controlPlane:
-      count: 3                                 #3 control plane nodes                       
-      class: best-effort-small                  #large size VM
+      count: 1                                                        
+      class: best-effort-small                
       storageClass: wrkldmgmt-storage-policy  #Specific storage class for control plane       
     workers:
-      count: 5                                 #5 worker nodes                     
-      class: best-effort-small                 #extra large size VM          
+      count: 3                                                     
+      class: best-effort-small                        
       storageClass: wrkldmgmt-storage-policy   #Specific storage class for workers     
   settings:
     network:

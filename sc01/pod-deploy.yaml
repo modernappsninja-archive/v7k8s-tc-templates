@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: pod-deploy
+  name: pod-deploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pod-deploy
+  template:
+    metadata:
+      labels:
+        app: pod-deploy
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
+        imagePullPolicy: Always
+        securityContext:
+          privileged: true
+          runAsUser: 
