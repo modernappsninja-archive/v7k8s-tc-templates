@@ -3,7 +3,7 @@ node('jenkins-slave') {
      stage('test pipeline') {
         sh(script: """
             echo "hello"
-	    kubectl apply -f https://raw.githubusercontent.com/reagul/ProjectPacific-labs/master/hello-kubernetes/hello-kubernetes.yaml
+	    kubectl vsphere login --server=kubeapi.corp.local --vsphere-username administrator@vsphere.local --managed-cluster-namespace demo-ns1 --managed-cluster-name tkc3 --insecure-skip-tls-verify
         """)
     }
 }
