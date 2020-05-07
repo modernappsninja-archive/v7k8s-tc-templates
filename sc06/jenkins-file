@@ -3,7 +3,7 @@ node('jenkins-slave') {
      stage('test pipeline') {
         sh(script: """
             echo "hello"
-	    kubectl vsphere login --server=10.10.20.129 --vsphere-username administrator@vsphere.local --managed-cluster-namespace demo-ns1 --managed-cluster-name tkc3 --insecure-skip-tls-verify
+	   ./autologin.sh
         """)
     }
 }
