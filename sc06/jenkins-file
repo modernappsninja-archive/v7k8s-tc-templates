@@ -3,7 +3,7 @@ node('jenkins-slave') {
      stage('test pipeline') {
         sh(script: """
             echo "hello"
-	   ./autologin.sh
+	   ls -la 
         """)
     }
 }
