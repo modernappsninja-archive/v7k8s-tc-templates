@@ -1,5 +1,5 @@
 FROM jenkins/jnlp-slave 
-MAINTAINER Charles Saroka 
+MAINTAINER Ravi Jagannathan 
 
 # Set the enviornment variable for SC_CLI_DOWNLOAD_IP either manually or via a pipeline for the build proces to download the vSphere 7 Kubernetes CLI tools from the Supervisor Cluster API. Additionally, uncomment the RUN statement that uses curl to download from 
 # the SC_CLI_DOWNLOAD_IP". Otherwise, manually download the vSphere 7 Kubernetes CLI tools from the Supervisor Cluster API and place in the same directory as the Dockerfile. For the local file transfer option, uncomment the statement "COPY vsphere-plugin.zip /tmp" and comment out 
@@ -30,14 +30,10 @@ COPY vsphere-plugin.zip /tmp
 RUN unzip /tmp/vsphere-plugin.zip -d /tmp/vsphere-plugin \
  && cp /tmp/vsphere-plugin/bin/kubectl* /usr/local/bin/ \
  && chmod +x /tmp/vsphere-plugin/bin/kubectl* 
-
+RUN  echo  "KUBECTL-VSPHERE copied"
 # The autologinsc script enables the ability auto-login to Supervisor Cluster such as with a CI/CD pipeline; requires variables SC_CLUS_VIP, SC_USER_NAME, and SC_USER_PASS. ENV variables can be set by pipeline or manually above. For local transfer, download 
 # script to the same directory as the Dockerfile, uncomment the following COPY and RUN statements, and comment out the RUN wget statement with public URL. Do the reverse to pull from the public repository.
-
-COPY autologinsc.sh /usr/local/bin/autologinsc
-RUN chmod +x /usr/local/bin/autologinsc
-# RUN wget -O /usr/local/bin/autologinsc https://raw.githubusercontent.com/ModernAppsNinja/v7k8s-tc-templates/master/sc06/autologinsc.sh \
-# && chmod +x /usr/local/bin/autologinsc
+RUN kubectl-vsphere version
  
 RUN apt-get clean
 
