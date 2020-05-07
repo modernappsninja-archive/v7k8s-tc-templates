@@ -1,0 +1,9 @@
+node('jenkins-slave') {
+    
+     stage('test pipeline') {
+        sh(script: """
+            echo "hello"
+	    kubectl apply -f https://raw.githubusercontent.com/reagul/ProjectPacific-labs/master/hello-kubernetes/hello-kubernetes.yaml
+        """)
+    }
+}
