@@ -13,5 +13,5 @@ interact
 EOF
 )
 
-kubectl-vsphere version
+kubectl config get-contexts 
 
