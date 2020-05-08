@@ -13,5 +13,5 @@ interact
 EOF
 )
 
-kubectl config get-contexts 
+kubectl config set-context tkc3
 
