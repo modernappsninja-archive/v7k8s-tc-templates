@@ -15,7 +15,7 @@ EOF
 sleep 5
 kubectl config set-context tkc3
 sleep 3
-kubectl get ns 
+kubectl get po -ns jenkins 
 sleep 30
 
 #kubectl config set-context tkc3
