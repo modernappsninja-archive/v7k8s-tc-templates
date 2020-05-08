@@ -1,15 +1,6 @@
 FROM jenkins/jnlp-slave 
 MAINTAINER Ravi Jagannathan 
 
-# Set the enviornment variable for SC_CLI_DOWNLOAD_IP either manually or via a pipeline for the build proces to download the vSphere 7 Kubernetes CLI tools from the Supervisor Cluster API. Additionally, uncomment the RUN statement that uses curl to download from 
-# the SC_CLI_DOWNLOAD_IP". Otherwise, manually download the vSphere 7 Kubernetes CLI tools from the Supervisor Cluster API and place in the same directory as the Dockerfile. For the local file transfer option, uncomment the statement "COPY vsphere-plugin.zip /tmp" and comment out 
-# RUN statement that uses curl to download from the SC_CLI_DOWNLOAD_IP". 
-
-# ENV SC_CLI_DOWNLOAD_IP="192.168.161.1"
-# ENV SC_CLUS_VIP="192.168.161.1"
-# SC_USER_NAME="administrator@vsphere.local"
-# SC_USER_PASS="vmware"
-
 USER root
 WORKDIR /
 RUN apt-get update && apt-get install -y \ 
@@ -19,7 +10,10 @@ RUN apt-get update && apt-get install -y \
   ca-certificates \
   git \
   apt-utils \
-  expect
+  expect \
+  python-pip
+
+RUN pip install pexpect
 
 RUN curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 \
  && chmod 700 get_helm.sh \
