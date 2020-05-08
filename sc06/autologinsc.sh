@@ -12,7 +12,9 @@ send "$::env(SC_USER_PASS)\n"
 interact
 EOF
 )
+
+kubectl config use-context tkc3
+kunbectl get ns 
 sleep 10m
-kubectl config set-context tkc3
-kubectl get ns
+#kubectl config set-context tkc3
 
