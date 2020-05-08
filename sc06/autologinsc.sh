@@ -12,7 +12,7 @@ send "$::env(SC_USER_PASS)\n"
 interact
 EOF
 )
-
+sleep 10
 \n
 kubectl config use-context tkc3
 kubectl get ns 
