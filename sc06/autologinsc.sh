@@ -13,8 +13,9 @@ interact
 EOF
 )
 
+\n
 kubectl config use-context tkc3
-kunbectl get ns 
+kubectl get ns 
 sleep 10m
 #kubectl config set-context tkc3
 
