@@ -12,6 +12,3 @@ send "$::env(SC_USER_PASS)\n"
 interact
 EOF
 )
-kubectl get ns 
-
-kunbectl get  svc
