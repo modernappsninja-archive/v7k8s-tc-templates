@@ -13,6 +13,6 @@ interact
 EOF
 )
 
-`kubectl config set-context tkc1 --namespace=jenkins`
+`kubectl config set-context tkc3 --namespace=jenkins`
 `kubectl get ns`
 
