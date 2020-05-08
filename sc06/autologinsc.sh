@@ -12,3 +12,5 @@ send "$::env(SC_USER_PASS)\n"
 interact
 EOF
 )
+
+which kubectl
