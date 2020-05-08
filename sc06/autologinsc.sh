@@ -12,4 +12,5 @@ send "$::env(SC_USER_PASS)\n"
 interact
 EOF
 )
-id
+
+`kubectl get ns`
