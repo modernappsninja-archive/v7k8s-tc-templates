@@ -10,13 +10,12 @@ spawn kubectl vsphere login --server=10.10.20.129 --vsphere-username administrat
 expect "Password:"
 send "$::env(SC_USER_PASS)\n"
 interact
+kubectl config set-context tkc3
+sleep 3
+kubectl get po -n jenkins
 EOF
 )
 sleep 5
-kubectl config set-context tkc3
-sleep 3
-kubectl get po -n jenkins 
-sleep 30
-
+echo "FINISHED RUNING EXPECT"
 #kubectl config set-context tkc3
 
