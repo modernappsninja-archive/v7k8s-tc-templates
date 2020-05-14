@@ -1,7 +1,7 @@
 apiVersion: run.tanzu.vmware.com/v1alpha1    
 kind: TanzuKubernetesCluster                 
 metadata:
-  name: tkg02-mm-xsmall                               
+  name: tkc02-mm-xsmall                               
   namespace: ns02                    
 spec:
   distribution:
