@@ -1,7 +1,7 @@
 apiVersion: run.tanzu.vmware.com/v1alpha1    
 kind: TanzuKubernetesCluster                 
 metadata:
-  name: tkc01-sm-small                               
+  name: tkc02-sm-xsmall                               
   namespace: ns01                    
 spec:
   distribution:
@@ -9,11 +9,11 @@ spec:
   topology:
     controlPlane:
       count: 1                                                        
-      class: best-effort-small                
+      class: best-effort-xsmall                
       storageClass: wrkldmgmt-storage-policy  #Specific storage class for control plane       
     workers:
-      count: 3                                                     
-      class: best-effort-small                        
+      count: 2                                                     
+      class: best-effort-xsmall                        
       storageClass: wrkldmgmt-storage-policy   #Specific storage class for workers     
   settings:
     network:
