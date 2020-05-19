@@ -16,9 +16,11 @@ kind: Pod
 metadata:
   name: busybox
 #  namespace: default
+  annotations:
+    backup.velero.io/backup-volumes: busybox-vol
 spec:
   containers:
-  - image: harbor.chl.bns/library/busybox:v1
+  - image: busybox:latest
     command:
       - sleep
       - "3600"
