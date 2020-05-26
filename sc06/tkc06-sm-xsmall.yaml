@@ -1,0 +1,27 @@
+apiVersion: run.tanzu.vmware.com/v1alpha1    
+kind: TanzuKubernetesCluster                 
+metadata:
+  name: tkc06-sm-xsmall                               
+  namespace: ns01                    
+spec:
+  distribution:
+    version: v1.16.8+vmware.1-tkg.3.60d2ffd    
+  topology:
+    controlPlane:
+      count: 1                                                        
+      class: best-effort-xsmall                
+      storageClass: vc-storage-policy   
+    workers:
+      count: 3                                                     
+      class: best-effort-xsmall                        
+      storageClass: vc-storage-policy  
+  settings:
+    network:
+      cni:
+        name: calico
+      services:
+        cidrBlocks: ["198.51.100.0/12"]
+      pods:
+        cidrBlocks: ["192.0.2.0/16"]
+    storage:
+      defaultClass: vc-storage-policy

@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: flask-ops
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    targetPort: 8080
+  selector:
+    app: flask-ops-app
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-ops-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: flask-ops-app
+  template:
+    metadata:
+      labels:
+        app: flask-ops-app
+    spec:
+      containers:
+      - name: flask-ops-app
+        image: ravij/flask-ops:v1
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 5000
