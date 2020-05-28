@@ -116,7 +116,7 @@ master:
   resources:
     requests:
       cpu: "50m"
-      memory: "256Mi"
+      memory: "512Mi"
     limits:
       cpu: "2000m"
       memory: "4096Mi"
@@ -225,9 +225,9 @@ master:
     - kubernetes:1.25.7
     - workflow-job:2.39
     - workflow-aggregator:2.6
-    - credentials-binding:1.21
+    - credentials-binding:1.23
     - git:4.2.2
-    - configuration-as-code:1.40
+    - configuration-as-code:1.41
 
   # Enable to always override the installed plugins with the values of 'master.installPlugins' on upgrade or redeployment.
   # overwritePlugins: true
@@ -437,7 +437,7 @@ master:
 agent:
   enabled: true
   image: csaroka/jenkins-slave-vsphere7
-  tag: v2
+  tag: v4
   #  image: "jenkins/jnlp-slave"
   #  tag: "3.27-1"
   customJenkinsLabels: []
@@ -453,7 +453,7 @@ agent:
       cpu: "512m"
       memory: "512Mi"
   # You may want to change this to true while testing a new image
-  alwaysPullImage: false
+  alwaysPullImage: true
   # Controls how agent pods are retained after the Jenkins build completes
   # Possible values: Always, Never, OnFailure
   podRetention: "Never"
@@ -488,9 +488,10 @@ agent:
   envVars: []
   # - name: PATH
   #   value: /usr/local/bin
-  nodeSelector: {}
+  nodeSelector:
   # Key Value selectors. Ex:
   # jenkins-agent: v1
+    kubernetes.io/os: CRX
 
   # Executed command when side container gets started
   command:
