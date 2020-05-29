@@ -437,7 +437,7 @@ master:
 agent:
   enabled: true
   image: csaroka/jenkins-slave-vsphere7
-  tag: v4
+  tag: v1
   #  image: "jenkins/jnlp-slave"
   #  tag: "3.27-1"
   customJenkinsLabels: []
