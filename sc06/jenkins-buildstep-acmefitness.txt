@@ -1,0 +1,116 @@
+#!/bin/bash
+export NAMESPACE='acme-fitness'
+export APP_SECRET='VMware1!'
+
+K8S_BUILD_CONTEXT="$(kubectl config current-context)"
+kubectl create ns $NAMESPACE
+kubectl config set-context $K8S_BUILD_CONTEXT --namespace=$NAMESPACE
+
+git clone https://github.com/vmwarecloudadvocacy/acme_fitness_demo.git && cd acme_fitness_demo/kubernetes-manifests/
+sleep 30
+
+find ./ -type f -exec sed -i -e "/- name: JAEGER_AGENT_HOST/{n;s/localhost/jaeger-agent.$NAMESPACE/;}" {} \;
+
+# Cart Service
+kubectl create secret generic cart-redis-pass --from-literal=password="$APP_SECRET"
+kubectl apply -f cart-redis-total.yaml
+kubectl apply -f cart-total.yaml
+CART=""
+CART_REDIS=""
+while [ -z "$CART" ] && [ -z "$CART_REDIS" ]
+do
+    sleep 5
+    echo "Awating Ready Pods..."
+    export CART=$(kubectl get deploy cart -o json | jq -r '.status.readyReplicas')
+    export CART_REDIS=$(kubectl get deploy cart-redis -o json | jq -r '.status.readyReplicas')
+done
+# Catalog Service
+kubectl create secret generic catalog-mongo-pass --from-literal=password="$APP_SECRET"
+kubectl create -f catalog-db-initdb-configmap.yaml
+kubectl apply -f catalog-db-total.yaml
+kubectl apply -f catalog-total.yaml
+CATALOG=""
+CATALOG_MONGO=""
+while [ -z "$CATALOG" ] && [ -z "$CATALOG_MONGO" ]
+do
+    sleep 5
+    echo "Awating Ready Pods..."
+    export CATALOG=$(kubectl get deploy catalog -o json | jq -r '.status.readyReplicas')
+    export CATALOG_MONGO=$(kubectl get deploy catalog-mongo -o json | jq -r '.status.readyReplicas')
+done
+# Payment Service
+kubectl apply -f payment-total.yaml
+PAYMENT=""
+while [ -z "$PAYMENT" ]
+do
+    sleep 5
+    echo "Awating Ready Pods..."
+    export PAYMENT=$(kubectl get deploy payment -o json | jq -r '.status.readyReplicas')
+done
+# Order Service
+kubectl create secret generic order-postgres-pass --from-literal=password="$APP_SECRET"
+kubectl apply -f order-db-total.yaml
+kubectl apply -f order-total.yaml
+ORDER=""
+ORDER_POSTGRES=""
+while [ -z "$ORDER" ] && [ -z "$ORDER_POSTGRES" ]
+do
+    sleep 5
+    echo "Awating Ready Pods..."
+    export ORDER=$(kubectl get deploy order -o json | jq -r '.status.readyReplicas')
+    export ORDER_POSTGRES=$(kubectl get deploy order-postgres -o json | jq -r '.status.readyReplicas')
+done
+# Users Service
+# Preconfigured Users: eric, dwight, han, or phoebe Password: '"vmware1!"'
+kubectl create secret generic users-mongo-pass --from-literal=password="$APP_SECRET"
+kubectl create secret generic users-redis-pass --from-literal=password="$APP_SECRET"
+kubectl create -f users-db-initdb-configmap.yaml
+kubectl apply -f users-db-total.yaml
+kubectl apply -f users-redis-total.yaml
+kubectl apply -f users-total.yaml
+USERS=""
+USERS_MONGO=""
+USERS_REDIS=""
+while [ -z "$USERS" ] && [ -z "$USERS_MONGO" ] && [ -z "$USERS_REDIS" ]
+do
+    sleep 5
+    echo "Awating Ready Pods..."
+    export USERS=$(kubectl get deploy users -o json | jq -r '.status.readyReplicas')
+    export USERS_MONGO=$(kubectl get deploy users-mongo -o json | jq -r '.status.readyReplicas')
+    export USERS_REDIS=$(kubectl get deploy users-redis -o json | jq -r '.status.readyReplicas')
+done
+# Datastore Independent Services
+kubectl apply -f frontend-total.yaml
+kubectl get services -l service=frontend
+FRONTEND=""
+while [ -z "$FRONTEND" ]
+do
+    sleep 5
+    echo "Awating Ready Pods..."
+    export FRONTEND=$(kubectl get deploy frontend -o json | jq -r '.status.readyReplicas')
+done
+# Point-of-Sales
+sed "s/frontend.default.svc.cluster.local/frontend.$NAMESPACE.svc.cluster.local/g" -i "point-of-sales-total.yaml"
+kubectl apply -f point-of-sales-total.yaml
+kubectl get services -l service=pos
+POS=""
+while [ -z "$POS" ]
+do
+    sleep 5
+    echo "Awating Ready Pods..."
+    export POS=$(kubectl get deploy pos -o json | jq -r '.status.readyReplicas')
+done
+# Distributed Tracing
+kubectl apply -f jaeger-all-in-one.yml
+JAEGER=""
+while [ -z "$JAEGER" ]
+do
+    sleep 5
+    echo "Awating Ready Pods..."
+    export JAEGER=$(kubectl get deploy jaeger -o json | jq -r '.status.readyReplicas')
+done
+
+export ACMEFIT_SVC_IP=$(kubectl get svc --namespace $NAMESPACE frontend --template "{{ range (index .status.loadBalancer.ingress 0) }}{{ . }}{{ end }}")
+echo "Open a web browser and visit http://$ACMEFIT_SVC_IP/ to browse the new ACME Fitness app! Login with a preconfigured user: eric, dwight, han, or phoebe / password: vmware1!"
+export JAEGER_SVC_IP=$(kubectl get svc --namespace $NAMESPACE jaeger-query --template "{{ range (index .status.loadBalancer.ingress 0) }}{{ . }}{{ end }}")
+echo "Open a web browser and visit http://$JAEGER_SVC_IP/ to access the Jaeger UI for end-to-end distributed tracing."

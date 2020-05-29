@@ -1,0 +1,42 @@
+#!/bin/bash 
+export SC_CLUS_VIP='192.168.161.1'
+export SC_USER_NAME='devopseng@lab.local'
+export SC_USER_PASS='VMware1!'
+export STORAGE_NAME='wrkldmgmt-storage-policy'
+export VM_IMAGE_VER='v1.16.8+vmware.1-tkg.3.60d2ffd'
+export SC_NAMESPACE='ns01'
+export TKC_NAME='tkc06-sm-xsmall'
+
+/usr/bin/expect <(cat << EOF
+spawn kubectl vsphere login --server=$::env(SC_CLUS_VIP) --vsphere-username $::env(SC_USER_NAME) --insecure-skip-tls-verify
+expect "Password:"
+send "$::env(SC_USER_PASS)\n"
+interact
+EOF
+)
+
+wget -O ${TKC_NAME}.yaml https://raw.githubusercontent.com/ModernAppsNinja/v7k8s-tc-templates/master/sc06/tkc06-sm-xsmall.yaml
+
+sleep 5
+
+sed "s/vc-storage-policy/$STORAGE_NAME/g" -i ${TKC_NAME}.yaml
+sed "s/tkc-sm-xsmall/$TKC_NAME/g" -i ${TKC_NAME}.yaml
+sed "s/ns01/$SC_NAMESPACE/g" -i ${TKC_NAME}.yaml
+sed "s/v1.16.8+vmware.1-tkg.3.60d2ffd/$VM_IMAGE_VER/g" -i ${TKC_NAME}.yaml
+cat ${TKC_NAME}.yaml
+
+kubectl apply -f ${TKC_NAME}.yaml
+sleep 60
+
+kubectl get tkc $TKC_NAME
+kubectl get tkc $TKC_NAME -o json | jq -r '.status.nodeStatus[]' > tkcnodestatus.txt
+
+while grep 'pending\|notready' tkcnodestatus.txt > /dev/null;
+do
+    sleep 30
+    echo "Configuring Kubernetes Cluster Nodes..."
+    kubectl get tkc $TKC_NAME -o json | jq -r '.status.nodeStatus[]' > tkcnodestatus.txt
+done
+
+kubectl describe tkc $TKC_NAME
+kubectl get tkc $TKC_NAME
