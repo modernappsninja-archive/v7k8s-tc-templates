@@ -20,7 +20,7 @@ CART_REDIS=""
 while [ -z "$CART" ] && [ -z "$CART_REDIS" ]
 do
     sleep 5
-    echo "Awating Ready Pods..."
+    echo "Awaiting Ready Pods..."
     export CART=$(kubectl get deploy cart -o json | jq -r '.status.readyReplicas')
     export CART_REDIS=$(kubectl get deploy cart-redis -o json | jq -r '.status.readyReplicas')
 done
@@ -34,7 +34,7 @@ CATALOG_MONGO=""
 while [ -z "$CATALOG" ] && [ -z "$CATALOG_MONGO" ]
 do
     sleep 5
-    echo "Awating Ready Pods..."
+    echo "Awaiting Ready Pods..."
     export CATALOG=$(kubectl get deploy catalog -o json | jq -r '.status.readyReplicas')
     export CATALOG_MONGO=$(kubectl get deploy catalog-mongo -o json | jq -r '.status.readyReplicas')
 done
@@ -44,7 +44,7 @@ PAYMENT=""
 while [ -z "$PAYMENT" ]
 do
     sleep 5
-    echo "Awating Ready Pods..."
+    echo "Awaiting Ready Pods..."
     export PAYMENT=$(kubectl get deploy payment -o json | jq -r '.status.readyReplicas')
 done
 # Order Service
@@ -56,7 +56,7 @@ ORDER_POSTGRES=""
 while [ -z "$ORDER" ] && [ -z "$ORDER_POSTGRES" ]
 do
     sleep 5
-    echo "Awating Ready Pods..."
+    echo "Awaiting Ready Pods..."
     export ORDER=$(kubectl get deploy order -o json | jq -r '.status.readyReplicas')
     export ORDER_POSTGRES=$(kubectl get deploy order-postgres -o json | jq -r '.status.readyReplicas')
 done
@@ -74,7 +74,7 @@ USERS_REDIS=""
 while [ -z "$USERS" ] && [ -z "$USERS_MONGO" ] && [ -z "$USERS_REDIS" ]
 do
     sleep 5
-    echo "Awating Ready Pods..."
+    echo "Awaiting Ready Pods..."
     export USERS=$(kubectl get deploy users -o json | jq -r '.status.readyReplicas')
     export USERS_MONGO=$(kubectl get deploy users-mongo -o json | jq -r '.status.readyReplicas')
     export USERS_REDIS=$(kubectl get deploy users-redis -o json | jq -r '.status.readyReplicas')
@@ -86,7 +86,7 @@ FRONTEND=""
 while [ -z "$FRONTEND" ]
 do
     sleep 5
-    echo "Awating Ready Pods..."
+    echo "Awaiting Ready Pods..."
     export FRONTEND=$(kubectl get deploy frontend -o json | jq -r '.status.readyReplicas')
 done
 # Point-of-Sales
@@ -97,7 +97,7 @@ POS=""
 while [ -z "$POS" ]
 do
     sleep 5
-    echo "Awating Ready Pods..."
+    echo "Awaiting Ready Pods..."
     export POS=$(kubectl get deploy pos -o json | jq -r '.status.readyReplicas')
 done
 # Distributed Tracing
@@ -106,7 +106,7 @@ JAEGER=""
 while [ -z "$JAEGER" ]
 do
     sleep 5
-    echo "Awating Ready Pods..."
+    echo "Awaiting Ready Pods..."
     export JAEGER=$(kubectl get deploy jaeger -o json | jq -r '.status.readyReplicas')
 done
 
