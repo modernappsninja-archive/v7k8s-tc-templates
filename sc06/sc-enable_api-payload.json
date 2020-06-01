@@ -1,0 +1,47 @@
+{
+    "Master_DNS_names": [ "sc01" ],
+    "default_image_repository": "",
+    "default_kubernetes_service_content_library": "",
+    "ephemeral_storage_policy": "f505901a-b0cd-42c6-9fd0-3f4ee3713e03",
+    "image_storage": {
+        "storage_policy": "f505901a-b0cd-42c6-9fd0-3f4ee3713e03"
+    },
+    "login_banner": "",
+    "master_DNS": [ "192.168.132.5" ],
+    "master_DNS_search_domains": [ "lab.local" ],
+    "master_NTP_servers": [ "192.168.132.7","192.168.131.3" ],
+    "master_management_network": {
+        "address_range": {
+            "address_count": 5,
+            "gateway": "192.168.132.1",
+            "starting_address": "192.168.132.50",
+            "subnet_mask": "255.255.254.0"
+        },
+        "mode": "STATICRANGE",
+        "network": "dvportgroup-46"
+    },
+    "master_storage_policy": "f505901a-b0cd-42c6-9fd0-3f4ee3713e03",
+    "ncp_cluster_network_spec": {
+        "cluster_distributed_switch": "50 10 6a 45 20 62 2b 96-74 fe 20 c7 bc 4f a0 c3",
+        "egress_cidrs": [ {
+            "address": "192.168.161.128",
+            "prefix": 25
+        } ],
+        "ingress_cidrs": [ {
+            "address": "192.168.161.0",
+            "prefix": 25
+        } ],
+        "nsx_edge_cluster": "4f32bc3b-d137-4cd0-b88e-569e705fee81",
+        "pod_cidrs": [ {
+            "address": "10.244.0.0",
+            "prefix": 20
+        } ]
+    },
+    "network_provider": "NSXT_CONTAINER_PLUGIN",
+    "service_cidr": {
+        "address": "10.96.0.0",
+        "prefix": 23
+    },
+    "size_hint": "SMALL",
+    "worker_DNS": [ "192.168.132.5" ]
+}
