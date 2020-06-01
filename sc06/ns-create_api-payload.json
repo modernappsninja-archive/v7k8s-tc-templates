@@ -1,0 +1,16 @@
+{
+    "access_list": [ {
+        "domain": "lab.local",
+        "role": "EDIT",
+        "subject": "DevOps",
+        "subject_type": "GROUP"
+    } ],
+    "cluster": "domain-c8",
+    "description": "",
+    "namespace": "ns06",
+    "resource_spec": { },
+    "storage_specs": [ {
+        "limit": 0,
+        "policy": "f505901a-b0cd-42c6-9fd0-3f4ee3713e03"
+    } ]
+}
