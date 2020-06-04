@@ -1,0 +1,60 @@
+# Customize Prometheus
+prometheus:
+  ingress:
+    enabled: false
+    hosts:
+     - prometheus.apps.tkc01.lab.local
+    path: "/*"
+  service:
+    type: LoadBalancer
+  prometheusSpec:
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          accessModes: ["ReadWriteOnce"]
+#          storageClassName: wrkldmgmt-storage-policy
+          resources:
+            requests:
+              storage: 20Gi
+
+# Customize Grafana
+grafana:
+  # Set password for Grafana admin user
+  adminPassword: VMware1!
+  ingress:
+    enabled: false
+    hosts:
+     - grafana.apps.tkc01.lab.local
+    path: "/*"
+  service:
+    type: LoadBalancer
+  persistence:
+    enabled: true
+#    storageClassName: wrkldmgmt-storage-policy
+    accessModes: ["ReadWriteOnce"]
+    size: 5Gi
+
+# Customize Alertmanager
+alertmanager:
+  ingress:
+    enabled: false
+    hosts:
+     - alertmanager.apps.tkc01.lab.local
+    path: "/*"
+  service:
+    type: LoadBalancer
+  alertmanagerSpec:
+    storage:
+      volumeClaimTemplate:
+        spec:
+          accessModes: ["ReadWriteOnce"]
+#          storageClassName: wrkldmgmt-storage-policy
+          resources:
+            requests:
+              storage: 10Gi
+
+# Customize node-exporter port
+#prometheus-node-exporter:
+#  service:
+#    port: 30206
+#    targetPort: 30206
