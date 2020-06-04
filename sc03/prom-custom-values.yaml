@@ -52,9 +52,34 @@ alertmanager:
           resources:
             requests:
               storage: 10Gi
-
+kubelet:
+  serviceMonitor:
+    https: true
+kubeControllerManager:
+  endpoints:
+    - 10.244.0.226
+    - 10.244.0.227
+    - 10.244.0.229
+kubeScheduler:
+  endpoints:
+    - 10.244.0.226
+    - 10.244.0.227
+    - 10.244.0.229
+kubeEtcd:
+  endpoints:
+    - 10.244.0.226
+    - 10.244.0.227
+    - 10.244.0.229
+  serviceMonitor:
+    insecureSkipVerify: true
+    scheme: https
+    caFile: "/etc/prometheus/secrets/etcd-client/etcd-ca"
+    certFile: "/etc/prometheus/secrets/etcd-client/etcd-client"
+    keyFile: "/etc/prometheus/secrets/etcd-client/etcd-client-key"
 # Customize node-exporter port
-#prometheus-node-exporter:
+prometheus-node-exporter:
 #  service:
 #    port: 30206
 #    targetPort: 30206
+  hostNetwork: false
+
