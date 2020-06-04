@@ -1,0 +1,55 @@
+{
+    "Master_DNS_names": [ "" ],
+    "default_image_registry": {
+        "hostname": "",
+        "port": 0
+    },
+    "default_image_repository": "",
+    "default_kubernetes_service_content_library": "",
+    "ephemeral_storage_policy": "",
+    "image_storage": {
+        "storage_policy": ""
+    },
+    "login_banner": "",
+    "master_DNS": [ "" ],
+    "master_DNS_search_domains": [ "" ],
+    "master_NTP_servers": [ "" ],
+    "master_management_network": {
+        "address_range": {
+            "address_count": 0,
+            "gateway": "",
+            "starting_address": "",
+            "subnet_mask": ""
+        },
+        "floating_IP": "",
+        "mode": {
+        },
+        "network": ""
+    },
+    "master_storage_policy": "",
+    "ncp_cluster_network_spec": {
+        "cluster_distributed_switch": "",
+        "egress_cidrs": [ {
+            "address": "",
+            "prefix": 0
+        } ],
+        "ingress_cidrs": [ {
+            "address": "",
+            "prefix": 0
+        } ],
+        "nsx_edge_cluster": "",
+        "pod_cidrs": [ {
+            "address": "",
+            "prefix": 0
+        } ]
+    },
+    "network_provider": {
+    },
+    "service_cidr": {
+        "address": "",
+        "prefix": 0
+    },
+    "size_hint": {
+    },
+    "worker_DNS": [ "" ]
+}

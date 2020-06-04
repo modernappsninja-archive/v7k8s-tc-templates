@@ -1,5 +1,5 @@
 {
-    "Master_DNS_names": [ "sc01" ],
+    "Master_DNS_names": [ "sc06" ],
     "default_image_repository": "",
     "default_kubernetes_service_content_library": "",
     "ephemeral_storage_policy": "f505901a-b0cd-42c6-9fd0-3f4ee3713e03",
