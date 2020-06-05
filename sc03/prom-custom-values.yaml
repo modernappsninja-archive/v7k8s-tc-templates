@@ -8,6 +8,8 @@ prometheus:
   service:
     type: LoadBalancer
   prometheusSpec:
+    secrets:
+    - etcd-client
     storageSpec:
       volumeClaimTemplate:
         spec:
@@ -33,7 +35,6 @@ grafana:
 #    storageClassName: wrkldmgmt-storage-policy
     accessModes: ["ReadWriteOnce"]
     size: 5Gi
-
 # Customize Alertmanager
 alertmanager:
   ingress:
@@ -52,34 +53,48 @@ alertmanager:
           resources:
             requests:
               storage: 10Gi
-kubelet:
-  serviceMonitor:
-    https: true
-kubeControllerManager:
-  endpoints:
-    - 10.244.0.226
-    - 10.244.0.227
-    - 10.244.0.229
-kubeScheduler:
-  endpoints:
-    - 10.244.0.226
-    - 10.244.0.227
-    - 10.244.0.229
+# Customer api-server
+kubeApiServer:
+  enabled: true
+  tlsConfig:
+    serverName: kubernetes
+    insecureSkipVerify: true
+# Customize etcd
 kubeEtcd:
-  endpoints:
-    - 10.244.0.226
-    - 10.244.0.227
-    - 10.244.0.229
+  service:
+    port: 2379
+    targetPort: 2379
+    selector:
+      component: etcd
   serviceMonitor:
     insecureSkipVerify: true
     scheme: https
     caFile: "/etc/prometheus/secrets/etcd-client/etcd-ca"
     certFile: "/etc/prometheus/secrets/etcd-client/etcd-client"
     keyFile: "/etc/prometheus/secrets/etcd-client/etcd-client-key"
-# Customize node-exporter port
+# Customer core-dns
+coreDns:
+  enabled: true
+  service:
+    port: 9153
+    targetPort: 9153
+    selector:
+      k8s-app: kube-dns
+# Customer kubelet
+kubelet:
+  serviceMonitor:
+    https: true
+# Customize node-exporter
 prometheus-node-exporter:
-#  service:
-#    port: 30206
-#    targetPort: 30206
   hostNetwork: false
+# Disable kube-controller-manager
+kubeControllerManager:
+  enabled: false
+# Disable kube-scheduler
+kubeScheduler:
+  enabled: false
+# Disable kube-proxy
+kubeProxy:
+  enabled: false
+
 
