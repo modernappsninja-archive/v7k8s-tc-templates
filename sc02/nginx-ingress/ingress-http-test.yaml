@@ -1,92 +1,94 @@
-kind: Service
-apiVersion: v1
-metadata:
-  name: hello
-spec:
-  selector:
-    app: hello
-    tier: backend
-  ports:
-  - protocol: TCP
-    port: 80
-    targetPort: http
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: hello
+  name: hello-worldv1
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: hello
+      app: hello-worldv1
       tier: backend
       track: stable
   template:
     metadata:
       labels:
-        app: hello
+        app: hello-worldv1
         tier: backend
         track: stable
     spec:
       containers:
-        - name: hello
-          image: "gcr.io/google-samples/hello-go-gke:1.0"
+        - name: hello-worldv1
+          image: "gcr.io/google-samples/hello-app:1.0" 
           ports:
             - name: http
-              containerPort: 80
+              containerPort: 8080
 ---
 kind: Service
 apiVersion: v1
 metadata:
-  name: nihao
+  name: helloworld-v1
 spec:
   selector:
-    app: nihao
+    app: hello-worldv1
     tier: backend
   ports:
   - protocol: TCP
-    port: 80
+    port: 8080
     targetPort: http
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nihao
+  name: hello-worldv2
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: nihao
+      app: hello-worldv2
       tier: backend
       track: stable
   template:
     metadata:
       labels:
-        app: nihao
+        app: hello-worldv2
         tier: backend
         track: stable
     spec:
       containers:
-        - name: nihao
-          image: "gcr.io/google-samples/hello-go-gke:1.0"
+        - name: hello-worldv2
+          image: "gcr.io/google-samples/hello-app:2.0" 
           ports:
             - name: http
-              containerPort: 80
+              containerPort: 8080
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: helloworld-v2
+spec:
+  selector:
+    app: hello-worldv2
+    tier: backend
+  ports:
+  - protocol: TCP
+    port: 8080
+    targetPort: http
 ---
 apiVersion: networking.k8s.io/v1beta1  
 kind: Ingress
 metadata:
   name: hello-ingress
+  annotations:
+    ingress.kubernetes.io/rewrite-target: /$1
 spec:
   rules:
   - http:
       paths:
-      - path: /hello
+      - path: /v1
         backend:
-          serviceName: hello
-          servicePort: 80
-      - path: /nihao
+          serviceName: helloworld-v1
+          servicePort: 8080
+      - path: /v2
         backend:
-          serviceName: nihao
-          servicePort: 80
+          serviceName: helloworld-v2
+          servicePort: 8080
