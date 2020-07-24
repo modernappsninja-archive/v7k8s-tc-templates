@@ -14,6 +14,10 @@ spec:
     rule: RunAsAny
   volumes:
   - '*'
+  hostPorts:
+  - min: 0
+    max: 65535
+  
 ---
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
