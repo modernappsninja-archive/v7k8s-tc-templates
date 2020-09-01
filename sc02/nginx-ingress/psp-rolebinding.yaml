@@ -1,9 +1,11 @@
 apiVersion: policy/v1beta1
 kind: PodSecurityPolicy
 metadata:
-  name: custom-psp-nonpriv-runasany
+  name: custom-psp-priv-runasany
 spec:
-  privileged: false
+  allowPrivilegeEscalation: true
+  allowedCapabilities:
+  - NET_BIND_SERVICE
   seLinux:
     rule: RunAsAny
   supplementalGroups:
@@ -18,7 +20,7 @@ spec:
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: psp:custom-psp-nonpriv-runasany
+  name: psp:custom-psp-priv-runasany
 rules:
 - apiGroups:
   - policy
@@ -27,16 +29,16 @@ rules:
   verbs:
   - use
   resourceNames:
-  - custom-psp-nonpriv-runasany
+  - custom-psp-priv-runasany
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: psp:custom-psp-nonpriv-runasany
+  name: psp:custom-psp-priv-runasany
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: psp:custom-psp-nonpriv-runasany
+  name: psp:custom-psp-priv-runasany
 subjects:
 - apiGroup: rbac.authorization.k8s.io
   kind: Group
