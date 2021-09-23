@@ -8,8 +8,8 @@ roleRef:
   name: edit                             
   apiGroup: rbac.authorization.k8s.io
 subjects:
-- kind: Group 
-  name: sso:DevTeamA@lab.local
+- kind: User 
+  name: sso:development01@vsphere.local
 #- kind: User
 #  name: sso:appdev01@lab.local            #sso:<username>@<domain>
   apiGroup: rbac.authorization.k8s.io
